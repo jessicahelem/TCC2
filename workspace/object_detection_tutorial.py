@@ -145,7 +145,7 @@ TEST_IMAGE_PATHS =  [ f for f in listdir(PATH_TO_TEST_IMAGES_DIR) if isfile(join
 
 
 # Size, in inches, of the output images.
-IMAGE_SIZE = (12, 8)
+IMAGE_SIZE = (150, 150)
 
 
 # In[9]:
@@ -203,13 +203,14 @@ def run_inference_for_single_image(image, graph):
 # In[10]:
 
 i=0
-for image_path in range(0,len(TEST_IMAGE_PATHS)):
+for image_path in range(len(TEST_IMAGE_PATHS)):
 
     image = cv2.imread(join(PATH_TO_TEST_IMAGES_DIR,TEST_IMAGE_PATHS[image_path]))
     # the array based representation of the image will be used later in order to prepare the
     # result image with boxes and labels on it.
 
-    image_np = load_image_into_numpy_array(image)
+    image_np = image
+
 
     # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
     image_np_expanded = np.expand_dims(image_np, axis=0)
@@ -225,11 +226,14 @@ for image_path in range(0,len(TEST_IMAGE_PATHS)):
         instance_masks=output_dict.get('detection_masks'),
         use_normalized_coordinates=True,
         line_thickness=8)
-    cv2.imshow("image", image_np)
+
+    cv2.imshow('teste', image_np)
     cv2.waitKey(0)
     cv2.imwrite("resultado/fingerprint%04i.png"%i,image_np)
-    i+=1
+    i += 1
 
 
     #plt.figure(figsize=IMAGE_SIZE)
     #plt.show()
+
+
